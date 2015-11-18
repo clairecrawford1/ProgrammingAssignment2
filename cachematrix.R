@@ -2,6 +2,7 @@
 ## functions do
 
 ## Testing using Git ~Becca
+## Showing others how to do what I just did!
 
 ## Write a short comment describing this function
 
