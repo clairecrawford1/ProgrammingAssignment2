@@ -1,6 +1,16 @@
+## to run, try:
+## a <- matrix(c(1,-1,1,2),ncol=2)
+## x <- makeCacheMatrix(a)
+## cacheSolve(x)
 
-## creates a special "matrix" object that can cache its inverse
+## if you get: Error in solve.default(dat, ...) : 
+##      Lapack routine dgesv: system is exactly singular: U[3,3] = 0
+## the matrix you are trying to invert is not invertible. 
+## try another matrix
 
+
+## create a special "matrix" object that can cache its inverse
+## (it is actually creating a list with four functions)
 makeCacheMatrix <- function(x = matrix()) {
     # create local m and set it to NULL
     m <- NULL
@@ -14,6 +24,8 @@ makeCacheMatrix <- function(x = matrix()) {
     }
     
     # create function 'get' that will return the value of x
+    # when called
+    # value of argument "x" is now stored in $get
     get <- function() x
     
     # create setinverse function that will set the value of m
@@ -23,7 +35,7 @@ makeCacheMatrix <- function(x = matrix()) {
     # create getinverse function that will return the value of m
     getinverse <- function() m
     
-    # return a list where each of the new functions is saved  
+    # return a list with each of the new functions saved  
     # to their name
     list(set = set, get = get,
          setinverse = setinverse,
@@ -36,7 +48,6 @@ makeCacheMatrix <- function(x = matrix()) {
 ## makecachematrix above.  If the inverse has already been calculated
 ## (and the matrix has not changed), then cacheSolve will retrieve the
 ## inverse from the cache.
-
 cacheSolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'x'
     
@@ -53,12 +64,12 @@ cacheSolve <- function(x, ...) {
     }
     
     # if m is null, we will need to calculate the inverse
-    # pull the matrix from the list using $get and store it as 'data' 
-    data <- x$get()
+    # pull the matrix from the list using $get and store it as 'dat' 
+    dat <- x$get()
     
     # use the 'solve' function to calculate the inverse of x
     # store the value as m
-    m <- solve(data, ...)
+    m <- solve(dat, ...)
     
     # store the newly calculated inverse to 'm' using the 'setinverse'
     # function
